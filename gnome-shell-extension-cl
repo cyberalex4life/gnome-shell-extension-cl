@@ -1,4 +1,7 @@
 #! /bin/bash
+#	Copyright (C) 2016
+#    	Alexandru Catalin Petrini <alexandru.c.petrini@gmail.com>
+#  This script is intended to usefully manage gnome-shell extensions in compatible Gnome Shell versions.
 get_enabled_extensions() {
 	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | tr -d "[",",","]","\'") )
 	echo "${enabled_extensions[@]}"	
