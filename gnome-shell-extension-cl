@@ -190,16 +190,16 @@ case $1 in
 		fi
 		;;
 	-lc|--list-all-containing)
-		print_installed_extensions| grep -i "$2"
+		print_installed_extensions| grep -i $2
 		;;
 	-slc|--simple-list-all-containing)
-		simple_print_enabled_extensions | grep -i "$2"
+		simple_print_enabled_extensions | grep -i $2
 		;;
 	-lec|--list-enabled-containing)
-		print_enabled_extensions | grep -i "$2"
+		print_enabled_extensions | grep -i $2
 		;;
 	-slec|--simple-list-enabled-containing)
-		simple_print_enabled_extensions | grep -i "$2"
+		simple_print_enabled_extensions | grep -i $2
 		;;	
 	-rt|--return-status)
 		check_extension_is_enabled $2
