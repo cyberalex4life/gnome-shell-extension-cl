@@ -2,13 +2,14 @@
 #	Copyright (C) 2016
 #    	Alexandru Catalin Petrini <alexandru.c.petrini@gmail.com>
 #  This script is intended to usefully manage gnome-shell extensions in compatible Gnome Shell versions.
+
 get_enabled_extensions() {
-	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | tr -d "[",",","]","\'") )
+	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") )
 	echo "${enabled_extensions[@]}"	
 }
 
 print_enabled_extensions(){
-	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | tr -d "[",",","]","\'") )
+	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") )
 	for enabled_extension in "${enabled_extensions[@]}"
 	do
 #		echo $enabled_extension
@@ -17,7 +18,7 @@ print_enabled_extensions(){
 }
 
 simple_print_enabled_extensions(){
-	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | tr -d "[",",","]","\'") )
+	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") )
 	for enabled_extension in "${enabled_extensions[@]}"
 	do
 		echo $enabled_extension
@@ -73,7 +74,7 @@ simple_print_installed_extensions() {
 }
 check_extension_is_enabled() {
 	extension_to_check=$1
-	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | tr -d "[",",","]","\'") )
+	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") )
 	for enabled_extension in "${enabled_extensions[@]}"
 	do
 		if [ "$enabled_extension" = "$extension_to_check" ]
@@ -111,7 +112,7 @@ disable_extension() {
 		echo "Extension \"$extension_to_disable\" is already disabled."
 		return
 	fi
-	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | tr -d "[",",","]","\'") ) 
+	enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") ) 
 	enabled_extensions_string=""
 	for enabled_extension in "${enabled_extensions[@]}"
 	do
@@ -123,7 +124,7 @@ disable_extension() {
 	enabled_extensions_string=${enabled_extensions_string:1:-2}
 	enabled_extensions_string="[ $enabled_extensions_string ]"
 
-	gsettings set org.gnome.shell enabled-extensions "$enabled_extensions_string"
+	dbus-launch gsettings set org.gnome.shell enabled-extensions "$enabled_extensions_string"
 }
 
 enable_extension() {
@@ -138,9 +139,13 @@ enable_extension() {
 		echo "Extension \"$extension_to_enable\" is already enabled."
 		return
 	fi
-	enabled_extensions_string=$(gsettings get org.gnome.shell enabled-extensions | tr -d "]")
-	enabled_extensions_string="$enabled_extensions_string, '$extension_to_enable' ]"
-	gsettings set org.gnome.shell enabled-extensions "$enabled_extensions_string"
+	enabled_extensions_string=$(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "]")
+	if [ "$enabled_extensions_string" = "[" ] || [ ! "$enabled_extensions_string" ]; then
+		enabled_extensions_string="[ '$extension_to_enable' ]"
+	else
+		enabled_extensions_string="$enabled_extensions_string, '$extension_to_enable' ]"
+	fi
+	dbus-launch gsettings set org.gnome.shell enabled-extensions "$enabled_extensions_string"
 }
 
 print_help() {
