@@ -13,7 +13,7 @@ print_enabled_extensions(){
 	for enabled_extension in "${enabled_extensions[@]}"
 	do
 #		echo $enabled_extension
-		printf "| %-70s %-20s %-10s | \n" $enabled_extension "---------------->" enabled
+		printf "| %-75s %-20s %-10s | \n" $enabled_extension "---------------->" enabled
 	done
 }
 
