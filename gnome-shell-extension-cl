@@ -54,7 +54,7 @@ print_installed_extensions() {
 	  for installed_extension in "${installed_extensions[@]}"
 	  do
 	      [ "$(check_extension_is_enabled "$installed_extension")" = true ] && status="enabled" || status="disabled";
-		    printf "| %-75s %-20s %-10s | \n" "$installed_extension" "---------------->" "$status"
+		    printf "%-75s - %-10s \n" "$installed_extension" "$status"
 	  done
 }
 
@@ -173,7 +173,6 @@ Options
     -le,  --list-enabled                            List enabled extensions.
     -l,   --list-all                                List all extensions + state info.
     -st,  --status <extension name>                 Show status of extension.
-    -rt,  --return-status <boolean>                 Return extension state.
 \n"
 
 }
@@ -202,8 +201,13 @@ case $1 in
 			      echo "Extension \"$2\" is  disabled."
 		    fi
 		    ;;
-	  -rt|--return-status)
-		    check_extension_is_enabled "$2"
+	  -s|--status)
+		    if  [ "$(check_extension_is_enabled "$2")" = true ]
+		    then
+			      echo "enabled"
+		    else
+			      echo "disabled"
+		    fi
         ;;
 	  *)
 		    print_help
