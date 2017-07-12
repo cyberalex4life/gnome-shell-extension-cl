@@ -164,7 +164,7 @@ print_help() {
     printf "
 GNOME Shell Extension Control Tool:
 
-usage: gnome-shell-extensions <option> [extension name] [char group]
+usage: gnome-shell-extensions <option> [extension name]
 
 Options
     -h,   --help                                    Display help message.
@@ -173,9 +173,6 @@ Options
     -le,  --list-enabled                            List enabled extensions.
     -l,   --list-all                                List all extensions + state info.
     -st,  --status <extension name>                 Show status of extension.
-    -lc,  --list-all-containing <char group>        List extensions containing <char group> + state info.
-    -slc, --simple-list-all-containing <char group> \"Simple\" list enabled exts containing <char group>.
-    -lec, --list-enabled-containing <char group>    List enabled extensions containing <char group>.
     -rt,  --return-status <boolean>                 Return extension state.
 \n"
 
@@ -204,15 +201,6 @@ case $1 in
 		    else
 			      echo "Extension \"$2\" is  disabled."
 		    fi
-		    ;;
-	  -lc|--list-all-containing)
-		    print_installed_extensions| grep -i "$2"
-		    ;;
-	  -slc|--simple-list-all-containing)
-		    print_enabled_extensions | grep -i "$2"
-		    ;;
-	  -lec|--simple-list-enabled-containing)
-		    print_enabled_extensions | grep -i "$2"
 		    ;;
 	  -rt|--return-status)
 		    check_extension_is_enabled "$2"
