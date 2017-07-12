@@ -13,15 +13,6 @@ print_enabled_extensions(){
 	  enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") )
 	  for enabled_extension in "${enabled_extensions[@]}"
 	  do
-        #		echo $enabled_extension
-		    printf "| %-75s %-20s %-10s | \n" "$enabled_extension" "---------------->" enabled
-	  done
-}
-
-simple_print_enabled_extensions(){
-	  enabled_extensions=( $(gsettings get org.gnome.shell enabled-extensions | sed -e 's|^@as ||g' | tr -d "[",",","]","\'") )
-	  for enabled_extension in "${enabled_extensions[@]}"
-	  do
 		    echo "$enabled_extension"
 	  done
 }
@@ -169,22 +160,25 @@ enable_extension() {
 }
 
 print_help() {
-	  printf " \n %-5s\n\n" "Help: "
-	  printf " %5s %-60s \n" "" "gnome-shell-extensions <option>"
-	  printf " %5s %-60s \n" "" "gnome-shell-extensions <option> <extensions-name>"
-	  printf " %5s %-60s \n\n" "" "gnome-shell-extensions <option> <char-group>"
-	  printf " %42s\n %40s %-100s\n\n" "-h, --help" "" "Show help."
-	  printf " %42s\n %40s %-100s\n\n" "-e, --enable-extension" "" "Enable extension (full name)."
-	  printf " %42s\n %40s %-100s\n\n" "-d, --disable-extension" "" "Disable extension (full name)."
-	  printf " %42s\n %40s %-100s\n\n" "-le, --list-enabled" "" "List enabled extensions with state info."
-	  printf " %42s\n %40s %-100s\n\n" "-sle, --simple-list-enabled" "" "Simple list of enabled extensions."
-	  printf " %42s\n %40s %-100s\n\n" "-l, --list-all" "" "List all extensions with state info."
-	  printf " %42s\n %40s %-100s\n\n" "-st, --status" "" "Show info about extensions state."
-	  printf " %42s\n %40s %-100s\n\n" "-lc, --list-all-containing" "" "List all extensions that contain the group of charachters with state info."
-	  printf " %42s\n %40s %-100s\n\n" "-slc, --simple-list-all-containing" "" "Simple list of the extensions that contain character group."
-	  printf " %42s\n %40s %-100s\n\n" "-lec, --list-enabled-containing" "" "List enabled extensions that contain characher group with state info."
-	  printf " %42s\n %40s %-100s\n\n" "-slec, --simple-list-enabled-containing" "" "Simple list of enabled extensions that contain character group."
-	  printf " %42s\n %40s %-100s\n\n" "-rt, --return-status" "" "Return extension state: true (enabled), false (disabled)."
+
+    printf "
+GNOME Shell Extension Control Tool:
+
+usage: gnome-shell-extensions <option> [extension name] [char group]
+
+Options
+    -h,   --help                                    Display help message.
+    -e,   --enable-extension <extension name>       Enable extension.
+    -d,   --disable-extension <extension name>      Disable extension.
+    -le,  --list-enabled                            List enabled extensions.
+    -l,   --list-all                                List all extensions + state info.
+    -st,  --status <extension name>                 Show status of extension.
+    -lc,  --list-all-containing <char group>        List extensions containing <char group> + state info.
+    -slc, --simple-list-all-containing <char group> \"Simple\" list enabled exts containing <char group>.
+    -lec, --list-enabled-containing <char group>    List enabled extensions containing <char group>.
+    -rt,  --return-status <boolean>                 Return extension state.
+\n"
+
 }
 
 case $1 in
@@ -197,11 +191,8 @@ case $1 in
 	  -d|--disable-extension)
 		    disable_extension "$2"
 		    ;;
-	  -le|--list-enabled)
+	  -le|--simple-list-enabled)
 		    print_enabled_extensions
-		    ;;
-	  -sle|--simple-list-enabled)
-		    simple_print_enabled_extensions
 		    ;;
 	  -l|--list-all)
 		    print_installed_extensions
@@ -218,13 +209,10 @@ case $1 in
 		    print_installed_extensions| grep -i "$2"
 		    ;;
 	  -slc|--simple-list-all-containing)
-		    simple_print_enabled_extensions | grep -i "$2"
-		    ;;
-	  -lec|--list-enabled-containing)
 		    print_enabled_extensions | grep -i "$2"
 		    ;;
-	  -slec|--simple-list-enabled-containing)
-		    simple_print_enabled_extensions | grep -i "$2"
+	  -lec|--simple-list-enabled-containing)
+		    print_enabled_extensions | grep -i "$2"
 		    ;;
 	  -rt|--return-status)
 		    check_extension_is_enabled "$2"
