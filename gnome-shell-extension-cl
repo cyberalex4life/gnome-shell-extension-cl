@@ -167,12 +167,12 @@ GNOME Shell Extension Control Tool:
 usage: gnome-shell-extensions <option> [extension name]
 
 Options
-    -h,   --help                                    Display help message.
-    -e,   --enable-extension <extension name>       Enable extension.
-    -d,   --disable-extension <extension name>      Disable extension.
-    -le,  --list-enabled                            List enabled extensions.
-    -l,   --list-all                                List all extensions + state info.
-    -st,  --status <extension name>                 Show status of extension.
+    -h,   --help                                Display help message.
+    -e,   --enable-extension <extension name>   Enable extension.
+    -d,   --disable-extension <extension name>  Disable extension.
+    -le,  --list-enabled                        List enabled extensions.
+    -l,   --list-all                            List all extensions + state info.
+    -s,   --status <extension name>             Show status of extension.
 \n"
 
 }
