@@ -193,14 +193,6 @@ case $1 in
 	  -l|--list-all)
 		    print_installed_extensions
 		    ;;
-	  -st|--status)
-		    if  [ "$(check_extension_is_enabled "$2")" = true ]
-		    then
-			      echo "Extension \"$2\" is  enabled."
-		    else
-			      echo "Extension \"$2\" is  disabled."
-		    fi
-		    ;;
 	  -s|--status)
 		    if  [ "$(check_extension_is_enabled "$2")" = true ]
 		    then
