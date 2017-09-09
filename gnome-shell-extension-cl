@@ -189,7 +189,7 @@ function enable_extension() {
             continue
         fi
         enabled_extensions_string=$(gsettings get org.gnome.shell enabled-extensions | tr -d "]")
-        [ ! -z "$(echo $enabled_extensions_string | sed -e 's|^@as ||g' | tr -d '[')" ] && delimiter=,
+        [ "$enabled_extensions_string" != "@as [" ] && delimiter=,
         enabled_extensions_string="${enabled_extensions_string}${delimiter} '$extension_to_enable' ]"
 
         gsettings set org.gnome.shell enabled-extensions "$enabled_extensions_string"
