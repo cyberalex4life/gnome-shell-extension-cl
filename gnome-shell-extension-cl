@@ -210,7 +210,7 @@ function disable_all_extensions() {
                [ "$enabled_extension" != "user-themes" ] && \
                [ "$enabled_extension" != "user-theme@gnome-shell-extensions.gcampax.github.com" ]
         then
-            disable_extension "$enabled_extension"
+            disable_extension "this element will be ignored" "$enabled_extension"
         else
             continue
         fi
