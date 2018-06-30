@@ -32,7 +32,7 @@ function get_installed_extensions() {
     global_installed_extensions=( $(find "/usr/share/gnome-shell/extensions/" \
                                          -maxdepth 1 -type d -name "*@*" -exec \
                                          /usr/bin/basename {} \;) )
-    local_installed_extensions=( $(find "/home/$USER/.local/share/gnome-shell/extensions/" \
+    local_installed_extensions=( $(find "$HOME/.local/share/gnome-shell/extensions/" \
                                         -maxdepth 1 -type d -name "*@*" -exec \
                                         /usr/bin/basename {} \;) )
 
