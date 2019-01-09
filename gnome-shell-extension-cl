@@ -255,7 +255,7 @@ case $1 in
     -da|--disable-all-extensions)
         disable_all_extensions
         ;;
-    -le|--simple-list-enabled)
+    -le|--list-enabled)
         print_enabled_extensions
         ;;
     -l|--list)
@@ -273,4 +273,3 @@ case $1 in
         print_help
         ;;
 esac
-
